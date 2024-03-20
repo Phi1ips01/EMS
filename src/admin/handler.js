@@ -1,15 +1,19 @@
 const {
     createControllerAdmin,
-    updateControllerUser,
-    showAllControllerUser,
-    showOneByPkControllerUser,
-    destroyControllerUser,
+    updateControllerAdmin,
+    showAllControllerAdmin,
+    destroyControllerAdmin,
 } = require('./controller')
 
 const bcrypt = require('bcrypt')
 async function createAdminHandler(req,res)
 {
     const hashedPassword = await securePassword(req.body.password)
+    let isAdmin=0
+    if(req.body.role === "HR")
+    {
+        isAdmin=1
+    }
     try{
         const UserData = {
             name:req.body.name ,
@@ -17,7 +21,7 @@ async function createAdminHandler(req,res)
             password:hashedPassword ,
             role:req.body.role,
             contact:req.body.contact,
-            isAdmin:0,
+            isAdmin,
         };
         const response = await createControllerAdmin(UserData);
         res.status(201).json({response:response});
@@ -35,7 +39,58 @@ const securePassword = async(password)=>{
         console.log(error.message)
     }
 }
+const showAllAdminHandler = async (req,res)=>{
+    try{
+        const response = await showAllControllerAdmin()
+        res.status(201).json({response:response});
+    }
+    catch(error){
+        res.status(500).json({error:error.message})
+    }
+}
+
+const deleteOneAdminHandler = async (req,res)=>{
+    try{
+        const response = await destroyControllerAdmin(req.body.userId)
+        res.status(201).json({response:response});
+    }
+    catch(error){
+        res.status(500).json({error:error.message})
+    }
+}
+async function updateAdminHandler(req, res) {
+    let hashedPassword;
+    if (!!req.body.password) {
+        hashedPassword = await securePassword(req.body.password);
+    }
+
+    let isAdmin = undefined; 
+    if (!!req.body.role && req.body.role === "HR") {
+        isAdmin = 1;
+    }
+
+    try {
+        const id = req.body.userId; 
+        const UserData = {
+            name: req.body.name,
+            email: req.body.email,
+            password: hashedPassword,
+            role: req.body.role,
+            contact: req.body.contact,
+            isAdmin, 
+        };
+        const response = await updateControllerAdmin(id, UserData);
+        res.status(200).json({ response });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 module.exports = {
     createAdminHandler,
     securePassword,
+    showAllAdminHandler,
+    deleteOneAdminHandler,
+    updateAdminHandler
 }
