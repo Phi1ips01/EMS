@@ -24,6 +24,7 @@ async function createAdminHandler(req,res)
             isAdmin,
         };
         const response = await createControllerAdmin(UserData);
+        console.log("response",response)
         res.status(201).json({response:response});
     } catch(error){
         res.status(500).json({error:error.message})
@@ -41,6 +42,7 @@ const securePassword = async(password)=>{
 }
 const showAllAdminHandler = async (req,res)=>{
     try{
+        console.log("showalladminhandler")
         const response = await showAllControllerAdmin()
         res.status(201).json({response:response});
     }
@@ -51,7 +53,9 @@ const showAllAdminHandler = async (req,res)=>{
 
 const deleteOneAdminHandler = async (req,res)=>{
     try{
+        console.log(req.body)
         const response = await destroyControllerAdmin(req.body.userId)
+        console.log("deleted ",response)
         res.status(201).json({response:response});
     }
     catch(error){
@@ -70,7 +74,7 @@ async function updateAdminHandler(req, res) {
     }
 
     try {
-        const id = req.body.userId; 
+        const id = req.body._id; 
         const UserData = {
             name: req.body.name,
             email: req.body.email,
@@ -79,13 +83,24 @@ async function updateAdminHandler(req, res) {
             contact: req.body.contact,
             isAdmin, 
         };
+
+        // Filter out empty or undefined values from UserData
+        Object.keys(UserData).forEach(key => {
+            if (UserData[key] === undefined || UserData[key] === '') {
+                delete UserData[key];
+            }
+        });
+
         const response = await updateControllerAdmin(id, UserData);
+        console.log("userdata", response);
+
         res.status(200).json({ response });
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 
 module.exports = {
     createAdminHandler,

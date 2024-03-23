@@ -31,7 +31,8 @@ async function showAllControllerAdmin() {
   }
   async function updateControllerAdmin(UserId, data) {
     try {
-      const response = await User.updateOne({ _id: UserId }, { $set: data });
+      await User.updateOne({ _id: UserId }, { $set: data });
+      const response = await User.findOne({_id:UserId})
       console.log("updated")
       return response;
     } catch (error) {
