@@ -1,30 +1,30 @@
-const isLogin = async (req, res, next) => {
-    try {
-        if (req.session.user_id) {
-            next(); // Call next only if user is logged in
-        } else {
-            res.redirect('/'); // Redirect if user is not logged in
-        }
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send('Internal Server Error'); // Handle error appropriately
-    }
-};
+// const isLogin = async (req, res, next) => {
+//     try {
+//         if (req.session.user_id) {
+//             next(); 
+//         } else {
+//             res.redirect('/'); 
+//         }
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(500).send('Internal Server Error'); 
+//     }
+// };
 
-const isLogOut = async (req, res, next) => {
-    try {
-        if (req.session.user_id) {
-            res.redirect('/home'); // Redirect if user is logged in
-        } else {
-            next(); // Call next only if user is logged out
-        }
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send('Internal Server Error'); // Handle error appropriately
-    }
-};
+// const isLogOut = async (req, res, next) => {
+//     try {
+//         if (req.session.user_id) {
+//             res.redirect('/home'); 
+//         } else {
+//             next(); 
+//         }
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(500).send('Internal Server Error'); 
+//     }
+// };
 
-module.exports = {
-    isLogin,
-    isLogOut
-};
+// module.exports = {
+//     isLogin,
+//     isLogOut
+// };

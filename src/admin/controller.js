@@ -4,6 +4,7 @@ const User = require('../../models/userModel')
 const config = require('../../config/config')
 
 const jwt = require('jsonwebtoken')
+const cron = require('node-cron');
 
 async function createControllerAdmin(data){
     try{
@@ -53,6 +54,31 @@ async function showAllControllerAdmin() {
     }
   }
   
+  cron.schedule('0 0 1 * * *', async () => {
+    try {
+      
+      const users = await User.find({});
+      for (let user of users) {
+        
+          user.leave += 1; 
+        console.log('yoyoyo',user.leave);
+        await user.save();
+      }
+      console.log('Leave count updated for all users');
+    } catch (error) {
+      console.error('Error updating leave count:', error);
+    }
+  });
+  async function showOneControllerAdmin(UserId) {
+    try {
+      const response = await User.findOne({_id:UserId});
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Error fetching data from User');
+    }
+  }
+  
   module.exports={
-    showAllControllerAdmin,createControllerAdmin,updateControllerAdmin,destroyControllerAdmin
+    showAllControllerAdmin,createControllerAdmin,updateControllerAdmin,destroyControllerAdmin,showOneControllerAdmin,
   }

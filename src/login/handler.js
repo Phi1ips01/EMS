@@ -11,9 +11,12 @@ async function loginUserHandler(req, res) {
         };
         
         const response = await loginControllerUser(userData);
-        console.log("resposne",response)
         if (response.success) {
-            res.status(200).json({ message: 'Login successful', user: response.user,token:response.token,payload:response.payload });
+            const rp = { message: 'Login successful', user:response.user,token:response.token,payload:response.payload }
+            console.log("resposne",rp)
+            
+            res.status(200).json(rp);
+
         } else {
             res.status(401).json({ error: response.message });
         }

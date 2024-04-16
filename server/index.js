@@ -15,6 +15,7 @@ const loginRoute = require('../src/login/router')
 const userRoute = require('../src/user/router')
 const adminRoute = require('../src/admin/router')
 app.use('/login',loginRoute)
+app.use(authenticateToken)
 app.use('/user',userRoute)
 app.use('/admin',adminRoute)
 

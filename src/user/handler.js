@@ -20,8 +20,10 @@ async function updateUserHandler(req,res)
 async function showOneUserHandler(req,res)
 {
     try{
-        const { userId } = req.body;
+        const { userId } = req.query;
+        console.log("hi",userId)
         const response = await showOneControllerUser(userId);
+        console.log("Response,",response)
     res.status(200).json({ response });
   } catch (error) {
     console.error(error);

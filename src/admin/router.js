@@ -1,15 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const authenticateToken = require('../../middleware/authenticate')
 const {
     createAdminHandler,
     showAllAdminHandler,
     updateAdminHandler,
     deleteOneAdminHandler,
-
+    showOneAdminHandler,
   } = require('./handler')
-// router.use(authenticateToken)
-
+router.get('/showOne',showOneAdminHandler)
 router.post("/add", createAdminHandler);
 router.get("/showall",showAllAdminHandler)
 router.put("/update",updateAdminHandler)

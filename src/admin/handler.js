@@ -3,6 +3,7 @@ const {
     updateControllerAdmin,
     showAllControllerAdmin,
     destroyControllerAdmin,
+    showOneControllerAdmin,
 } = require('./controller')
 
 const bcrypt = require('bcrypt')
@@ -100,6 +101,19 @@ async function updateAdminHandler(req, res) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+async function showOneAdminHandler(req,res)
+{
+    try{
+        const { userId } = req.query;
+        console.log("hi",userId)
+        const response = await showOneControllerAdmin(userId);
+        console.log("Response,",response)
+    res.status(200).json({ response });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
 
 
 module.exports = {
@@ -107,5 +121,6 @@ module.exports = {
     securePassword,
     showAllAdminHandler,
     deleteOneAdminHandler,
-    updateAdminHandler
+    updateAdminHandler,
+    showOneAdminHandler
 }

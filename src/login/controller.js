@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const config = require('../../config/config')
 const loginControllerUser = async (user)=>{
     try{
-        let admin=0
+        let admin=false
         const userData = await User.findOne({email:user.email})
         console.log("verify login 0",userData)
         if(!!userData)
@@ -15,7 +15,7 @@ const loginControllerUser = async (user)=>{
             {
                 if(!!userData.isAdmin)
                 {
-                    admin=1
+                    admin=true
                 }
                 const payload = {
                     email: user.email,
@@ -26,8 +26,9 @@ const loginControllerUser = async (user)=>{
                 const token = jwt.sign(payload, config.secretKey, { expiresIn: "1d" });
                 return {
                     success: true,
+                    user:userData.name,
                     message: "Login successful",
-                    // token: "Bearer " + token,
+                    token: "Bearer " + token,
                     payload:payload
                 };
             }
