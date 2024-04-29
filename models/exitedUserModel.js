@@ -1,9 +1,5 @@
 const mongoose = require("mongoose");
-const userSchema = new mongoose.Schema({
-  emp_Id: {
-    type: String,
-    default: true,
-  },
+const exitedEmployeeSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -25,10 +21,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  password: {
-    type: String,
-    required: true,
-  },
   contact: {
     type: String,
     required: true,
@@ -43,15 +35,12 @@ const userSchema = new mongoose.Schema({
   },
   joiningDate: {
     type: String,
-    default: Date.now,
-  },
-  isQuit: {
-    type: Boolean,
-    default: false,
+    default: "dd/MM/yyyy",
   },
   exitDate: {
     type: String,
+    required: true,
   },
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("ExitedEmployee", exitedEmployeeSchema);
